@@ -149,7 +149,7 @@ form: {
   borderTopRightRadius: 25,
   paddingHorizontal: 16,
   paddingTop: 90,
-  paddingBottom: 50,
+  paddingBottom: 60,
   position: "relative",
 },
 
