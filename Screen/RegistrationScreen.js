@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -11,22 +11,43 @@ import {
   TouchableWithoutFeedback,
   ImageBackground,
   Alert,
+  Dimensions,
+  ScrollView,
 } from "react-native";
 
 import { AntDesign } from '@expo/vector-icons'; 
 import Photo from '../assets/images/photo.png';
 
 export  const Registration = () => {
-  const [login, onChangeLogin] = useState("");
-  const [email, onChangeEmail] = useState("");
-  const [password, onChangePassword] = useState("");
-  const [showPassword, setShowPassword] = useState(true);
-  const [isFocusedEmail, setIsFocusedEmail] = useState(false);
-  const [isFocusedPassword, setIsFocusedPassword] = useState(false);
-  const [isFocusedLogin, setIsFocusedLogin] = useState(false);
+  const [login, onChangeLogin] = useState(""); // Стан для збереження значення поля "Логін"
+  const [email, onChangeEmail] = useState("");  // Стан для збереження значення поля "Адреса електронної пошти"
+  const [password, onChangePassword] = useState(""); // Стан для збереження значення поля "Пароль"
+  const [showPassword, setShowPassword] = useState(true); // Стан для визначення видимості пароля
+
+  const [isFocusedEmail, setIsFocusedEmail] = useState(false); // Стан для визначення активності поля "Адреса електронної пошти"
+  const [isFocusedPassword, setIsFocusedPassword] = useState(false); // Стан для визначення активності поля "Пароль"
+  const [isFocusedLogin, setIsFocusedLogin] = useState(false);  // Стан для визначення активності поля "Логін"
+
+  const [phoneWidth, setPhoneWidth] = useState(Dimensions.get('window').width); // Стан для збереження ширини екрану
+  const [phoneHeight, setPhoneHeight] = useState(
+    Dimensions.get('window').height
+  ); // Стан для збереження висоти екрану
+
+  useEffect (() => {
+    const onChange = () => {
+      const width = Dimensions.get('window').width; // Отримання ширини вікна
+      setPhoneWidth(width); // Оновлення значення ширини пристрою
+
+      const height = Dimensions.get('window').height; // Отримання висоти вікна
+      setPhoneHeight(height); // Оновлення значення висоти пристрою
+    };
+    const addListener = Dimensions.addEventListener('change', onChange); // Додавання слухача на зміни розміру вікна
+
+    return () => addListener.remove(); // Видалення слухача при виході з компонента
+  },[])
 
   const behavior = Platform.OS === "ios" ? "padding" : "height";
-  const keyboardVerticalOffset = Platform.OS === "ios" ? -140 : -160;
+  const keyboardVerticalOffset = Platform.OS === "ios" ? -120 : -160;
 
   const togleShowPassword = () => {
     setShowPassword((prev) => !prev);
@@ -40,16 +61,26 @@ export  const Registration = () => {
   };
 
   return (
-  
-    <ImageBackground style={styles.imageBg} source={Photo}>
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View style={{ flex: 1, justifyContent: "flex-end" }}>
+    <ImageBackground style={styles.imageBg} source={Photo}>
+        <ScrollView>
+        <View
+                style={{
+                  ...styles.containerWrapper,
+                  width: phoneWidth,
+
+                  marginTop: phoneWidth > 400 ? 200 : 300,
+                }}
+              >
         <KeyboardAvoidingView
           behavior={behavior}
           keyboardVerticalOffset={keyboardVerticalOffset}
+          style={styles.container}
         >
           <View style={styles.form}>
-            <View style={styles.photoWrap}>
+            <View style={{...styles.photoWrap,
+            left: (phoneWidth - 120) /2,
+            }}>
               <TouchableOpacity
                 style={{ position: "absolute", bottom: 14, right: -14 }}
               >
@@ -59,7 +90,7 @@ export  const Registration = () => {
               </TouchableOpacity>
             </View>
             <Text style={styles.formTitle}>Реєстрація</Text>
-            <View>
+            <View style={{ width: phoneWidth - 16 * 2 }}>
               <TextInput
                 value={login}
                 onChangeText={onChangeLogin}
@@ -134,14 +165,23 @@ export  const Registration = () => {
           </View>
         </KeyboardAvoidingView>
       </View>
-    </TouchableWithoutFeedback>
+
+    </ScrollView>
   </ImageBackground>
+  </TouchableWithoutFeedback>
+
 );
             }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
 imageBg: {
    flex: 1, width: "100%" 
+  },
+  containerWrapper:{
+    flex: 1,
   },
 form: {
   backgroundColor: "#fff",
