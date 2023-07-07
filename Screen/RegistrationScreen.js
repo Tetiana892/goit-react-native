@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState } from "react";
 import {
   View,
   StyleSheet,
@@ -11,8 +11,6 @@ import {
   TouchableWithoutFeedback,
   ImageBackground,
   Alert,
-  Dimensions,
-  ScrollView,
 } from "react-native";
 
 import { AntDesign } from '@expo/vector-icons'; 
@@ -28,23 +26,6 @@ export  const Registration = () => {
   const [isFocusedPassword, setIsFocusedPassword] = useState(false); // Стан для визначення активності поля "Пароль"
   const [isFocusedLogin, setIsFocusedLogin] = useState(false);  // Стан для визначення активності поля "Логін"
 
-  const [phoneWidth, setPhoneWidth] = useState(Dimensions.get('window').width); // Стан для збереження ширини екрану
-  const [phoneHeight, setPhoneHeight] = useState(
-    Dimensions.get('window').height
-  ); // Стан для збереження висоти екрану
-
-  useEffect (() => {
-    const onChange = () => {
-      const width = Dimensions.get('window').width; // Отримання ширини вікна
-      setPhoneWidth(width); // Оновлення значення ширини пристрою
-
-      const height = Dimensions.get('window').height; // Отримання висоти вікна
-      setPhoneHeight(height); // Оновлення значення висоти пристрою
-    };
-    const addListener = Dimensions.addEventListener('change', onChange); // Додавання слухача на зміни розміру вікна
-
-    return () => addListener.remove(); // Видалення слухача при виході з компонента
-  },[])
 
   const behavior = Platform.OS === "ios" ? "padding" : "height";
   const keyboardVerticalOffset = Platform.OS === "ios" ? -120 : -160;
@@ -54,33 +35,28 @@ export  const Registration = () => {
   };
 
   const onLogin = () => {
-    Alert.alert(
-      "Credentials",
-      `name : ${login} , email: ${email},  password: ${password}`
-    );
+    if (!login.trim() || !email.trim() || !password.trim()) {
+      Alert.alert(`Усі поля мають бути заповнені!`); // Попередження, якщо не всі поля заповнені
+      return;
+    }
+    Alert.alert(`${login}, успішно зареєстровані!`); // Повідомлення про успішну реєстрацію
+    console.log('login: ' + login, 'email: ' + email, 'password: ' + password); // Виведення значень полів "Логін", "Адреса електронної пошти" та "Пароль" у консоль
+    onChangeLogin(''); // Скидання значення поля "Логін"
+    onChangeEmail(''); 
+    onChangePassword(''); 
+    Keyboard.dismiss(); // Закриття клавіатури
   };
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
     <ImageBackground style={styles.imageBg} source={Photo}>
-        <ScrollView>
-        <View
-                style={{
-                  ...styles.containerWrapper,
-                  width: phoneWidth,
-
-                  marginTop: phoneWidth > 400 ? 200 : 300,
-                }}
-              >
+       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <View style={{ flex: 1, justifyContent: "flex-end" }}>
         <KeyboardAvoidingView
           behavior={behavior}
           keyboardVerticalOffset={keyboardVerticalOffset}
-          style={styles.container}
         >
           <View style={styles.form}>
-            <View style={{...styles.photoWrap,
-            left: (phoneWidth - 120) /2,
-            }}>
+            <View style={styles.photoWrap}>
               <TouchableOpacity
                 style={{ position: "absolute", bottom: 14, right: -14 }}
               >
@@ -90,7 +66,7 @@ export  const Registration = () => {
               </TouchableOpacity>
             </View>
             <Text style={styles.formTitle}>Реєстрація</Text>
-            <View style={{ width: phoneWidth - 16 * 2 }}>
+            <View>
               <TextInput
                 value={login}
                 onChangeText={onChangeLogin}
@@ -165,24 +141,18 @@ export  const Registration = () => {
           </View>
         </KeyboardAvoidingView>
       </View>
-
-    </ScrollView>
+      </TouchableWithoutFeedback>
   </ImageBackground>
-  </TouchableWithoutFeedback>
-
+ 
 );
-            }
+ }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
 imageBg: {
-   flex: 1, width: "100%" 
+   flex: 1,
+    width: "100%" 
   },
-  containerWrapper:{
-    flex: 1,
-  },
+
 form: {
   backgroundColor: "#fff",
   borderTopLeftRadius: 25,

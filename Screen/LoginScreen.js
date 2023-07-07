@@ -32,8 +32,16 @@ export  const Login = () => {
   };
 
   const onLogin = () => {
-    Alert.alert( "Credentials", `email: ${email}`
-    );
+    if (!email.trim() || !password.trim()) {
+      Alert.alert(`Усі поля мають бути заповнені!`); // Перевірка на заповненість полів електронної пошти та пароля
+      return;
+    }
+    Alert.alert(`${email}, успішно увійшли!`); // Виведення повідомлення про успішний вхід
+    console.log('email' - email, 'password' - password); 
+
+    onChangeEmail(''); // Очищення поля з електронною поштою
+    onChangePassword(''); // Очищення поля з паролем
+    Keyboard.dismiss(); 
   };
 
   return (
