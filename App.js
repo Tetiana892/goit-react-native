@@ -1,7 +1,12 @@
+import 'react-native-gesture-handler';
 import { useFonts } from 'expo-font';
-import {View,StyleSheet,} from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import {Registration} from "./Screen/RegistrationScreen";
-// import {Login} from "./Screen/LoginScreen";
+import {Login} from "./Screen/LoginScreen";
+import {Home} from "./Screen/HomeScreen";
+
+const MainStack = createStackNavigator(); // вказує на групу навігаторів
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -15,18 +20,13 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
-  <Registration/> 
-  {/* <Login/> */}
-  </View>
+    <NavigationContainer>
+     <MainStack.Navigator initialRouteName="RegistrationScreen" >    
+       <MainStack.Screen name="Registration" component={{Registration}} options={{ headerShown: false}} /> {/* Аналог Route */}
+       <MainStack.Screen name="Login" component={Login} options={{ headerShown: false}}/>
+       <MainStack.Screen name="Home" component={Home} options={{ headerShown: false }} />  
+  </MainStack.Navigator>
+  </NavigationContainer>
 );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

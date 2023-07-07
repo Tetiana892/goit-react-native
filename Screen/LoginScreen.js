@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigation } from '@react-navigation/native';
 import {
   View,
   StyleSheet,
@@ -15,7 +16,9 @@ import {
 
 import Photo from '../assets/images/photo.png';
 
-export  const Login = () => {
+export  const Login = ({navigation}) => {
+
+  const navigation = useNavigation();
 
   const [email, onChangeEmail] = useState("");
   const [password, onChangePassword] = useState("");
@@ -41,11 +44,14 @@ export  const Login = () => {
 
     onChangeEmail(''); // Очищення поля з електронною поштою
     onChangePassword(''); // Очищення поля з паролем
-    Keyboard.dismiss(); 
+    // Keyboard.dismiss(); 
+    navigation.navigate("Home");
   };
 
+
+
   return (
-  
+    <View style={styles.container}>
     <ImageBackground style={styles.imageBg} source={Photo}>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={{ flex: 1, justifyContent: "flex-end" }}>
@@ -103,13 +109,15 @@ export  const Login = () => {
                 activeOpacity={0.7}
                 style={styles.btn}
               >
-                <Text style={styles.btnTitle}>Зареєструватися</Text>
+                <Text style={styles.btnTitle} 
+                >Зареєструватися</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 activeOpacity={0.7}
-                onPress={() => Alert.alert("Work ask")}
+                // onPress={() => Alert.alert("Work ask")}
               >
-                <Text style={styles.linkTitle}>
+                <Text style={styles.linkTitle}
+                 onPress={() => navigation.navigate("Registration ")}>
                   Не має акаунта? Зареєструватися
                 </Text>
               </TouchableOpacity>
@@ -118,10 +126,17 @@ export  const Login = () => {
         </View>
       </TouchableWithoutFeedback>
     </ImageBackground>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   imageBg: { flex: 1, width: "100%" },
   form: {
     backgroundColor: "#fff",

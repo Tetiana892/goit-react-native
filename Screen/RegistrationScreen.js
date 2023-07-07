@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigation } from '@react-navigation/native';
 import {
   View,
   StyleSheet,
@@ -16,7 +17,9 @@ import {
 import { AntDesign } from '@expo/vector-icons'; 
 import Photo from '../assets/images/photo.png';
 
-export  const Registration = () => {
+export  const Registration = ({navigation}) => {
+  const navigation = useNavigation();
+
   const [login, onChangeLogin] = useState(""); // Стан для збереження значення поля "Логін"
   const [email, onChangeEmail] = useState("");  // Стан для збереження значення поля "Адреса електронної пошти"
   const [password, onChangePassword] = useState(""); // Стан для збереження значення поля "Пароль"
@@ -44,10 +47,12 @@ export  const Registration = () => {
     onChangeLogin(''); // Скидання значення поля "Логін"
     onChangeEmail(''); 
     onChangePassword(''); 
-    Keyboard.dismiss(); // Закриття клавіатури
+    // Keyboard.dismiss(); // Закриття клавіатури
+    navigation.navigate("Home");
   };
 
   return (
+    <View style={styles.container}>
     <ImageBackground style={styles.imageBg} source={Photo}>
        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={{ flex: 1, justifyContent: "flex-end" }}>
@@ -65,7 +70,7 @@ export  const Registration = () => {
                 </View>
               </TouchableOpacity>
             </View>
-            <Text style={styles.formTitle}>Реєстрація</Text>
+            <Text style={styles.formTitle} >Реєстрація</Text>
             <View>
               <TextInput
                 value={login}
@@ -134,20 +139,28 @@ export  const Registration = () => {
             </TouchableOpacity>
             <TouchableOpacity
               activeOpacity={0.8}
-              onPress={() => Alert.alert("Work ask")}
+              // onPress={() => Alert.alert("Work ask")}
             >
-              <Text style={styles.linkTitle}>Вже є аккаунт? Увійти</Text>
+              <Text style={styles.linkTitle}
+              onPress={() => navigation.navigate("Login")}
+              >Вже є аккаунт? Увійти</Text>
             </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>
       </View>
       </TouchableWithoutFeedback>
   </ImageBackground>
- 
+  </View>
 );
  }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
 imageBg: {
    flex: 1,
     width: "100%" 
