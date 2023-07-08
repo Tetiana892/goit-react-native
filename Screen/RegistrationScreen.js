@@ -48,7 +48,7 @@ export  const RegistrationScreen = () => {
     onChangeLogin(''); // Скидання значення поля "Логін"
     onChangeEmail(''); 
     onChangePassword(''); 
-    // Keyboard.dismiss(); // Закриття клавіатури
+    Keyboard.dismiss(); // Закриття клавіатури
     navigation.navigate("Home");
   };
 
@@ -146,7 +146,6 @@ export  const RegistrationScreen = () => {
               onPress={() => navigation.navigate("Login")}
             >
               <Text style={styles.linkTitle}
-             
               >Вже є аккаунт? Увійти</Text>
             </TouchableOpacity>
           </View>

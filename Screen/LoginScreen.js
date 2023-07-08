@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation , useRoute} from '@react-navigation/native';
 import {
   View,
   StyleSheet,
@@ -19,6 +19,8 @@ import Photo from '../assets/images/photo.png';
 export  const LoginScreen = ()=> {
 
   const navigation = useNavigation();
+  const { params: { userId } } = useRoute();
+
 
   const [email, onChangeEmail] = useState("");
   const [password, onChangePassword] = useState("");
@@ -44,10 +46,9 @@ export  const LoginScreen = ()=> {
 
     onChangeEmail(''); // Очищення поля з електронною поштою
     onChangePassword(''); // Очищення поля з паролем
+    Keyboard.dismiss();
     navigation.navigate("Home");
   };
-
-
 
   return (
     <View style={styles.container}>
