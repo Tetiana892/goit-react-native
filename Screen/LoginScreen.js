@@ -16,7 +16,7 @@ import {
 
 import Photo from '../assets/images/photo.png';
 
-export  const Login = ({navigation}) => {
+export  const LoginScreen = ()=> {
 
   const navigation = useNavigation();
 
@@ -44,7 +44,6 @@ export  const Login = ({navigation}) => {
 
     onChangeEmail(''); // Очищення поля з електронною поштою
     onChangePassword(''); // Очищення поля з паролем
-    // Keyboard.dismiss(); 
     navigation.navigate("Home");
   };
 
@@ -76,6 +75,7 @@ export  const Login = ({navigation}) => {
                   onFocus={() => setIsFocusedEmail(true)}
                   onBlur={() => setIsFocusedEmail(false)}
                   placeholder="Адреса електронної пошти"
+                  type={"email"}
                 />
               </View>
               <View style={{ position: "relative" }}>
@@ -93,6 +93,7 @@ export  const Login = ({navigation}) => {
                   onFocus={() => setIsFocusedPassword(true)}
                   onBlur={() => setIsFocusedPassword(false)}
                   placeholder="Пароль"
+                  type={"password"}
                 />
                 <TouchableOpacity
                   onPress={togleShowPassword}
@@ -114,10 +115,9 @@ export  const Login = ({navigation}) => {
               </TouchableOpacity>
               <TouchableOpacity
                 activeOpacity={0.7}
-                // onPress={() => Alert.alert("Work ask")}
+                onPress={() => navigation.navigate("Registration")}
               >
-                <Text style={styles.linkTitle}
-                 onPress={() => navigation.navigate("Registration ")}>
+                <Text style={styles.linkTitle} >
                   Не має акаунта? Зареєструватися
                 </Text>
               </TouchableOpacity>

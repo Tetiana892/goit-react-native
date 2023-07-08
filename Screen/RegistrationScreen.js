@@ -17,7 +17,8 @@ import {
 import { AntDesign } from '@expo/vector-icons'; 
 import Photo from '../assets/images/photo.png';
 
-export  const Registration = ({navigation}) => {
+export  const RegistrationScreen = () => {
+
   const navigation = useNavigation();
 
   const [login, onChangeLogin] = useState(""); // Стан для збереження значення поля "Логін"
@@ -85,6 +86,7 @@ export  const Registration = ({navigation}) => {
                 onFocus={() => setIsFocusedLogin(true)}
                 onBlur={() => setIsFocusedLogin(false)}
                 placeholder="Логін"
+                type= {"login"}
               />
             </View>
 
@@ -102,6 +104,7 @@ export  const Registration = ({navigation}) => {
                 onFocus={() => setIsFocusedEmail(true)}
                 onBlur={() => setIsFocusedEmail(false)}
                 placeholder="Адреса електронної пошти"
+                type={"email"}
               />
             </View>
             <View style={{ position: "relative" }}>
@@ -119,6 +122,7 @@ export  const Registration = ({navigation}) => {
                 onFocus={() => setIsFocusedPassword(true)}
                 onBlur={() => setIsFocusedPassword(false)}
                 placeholder="Пароль"
+                type={"password"}
               />
               <TouchableOpacity
                 onPress={togleShowPassword}
@@ -139,10 +143,10 @@ export  const Registration = ({navigation}) => {
             </TouchableOpacity>
             <TouchableOpacity
               activeOpacity={0.8}
-              // onPress={() => Alert.alert("Work ask")}
+              onPress={() => navigation.navigate("Login")}
             >
               <Text style={styles.linkTitle}
-              onPress={() => navigation.navigate("Login")}
+             
               >Вже є аккаунт? Увійти</Text>
             </TouchableOpacity>
           </View>

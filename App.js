@@ -1,10 +1,18 @@
+import { StatusBar } from 'expo-status-bar';
 import 'react-native-gesture-handler';
-import { useFonts } from 'expo-font';
+
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import {Registration} from "./Screen/RegistrationScreen";
-import {Login} from "./Screen/LoginScreen";
-import {Home} from "./Screen/HomeScreen";
+import { useFonts } from 'expo-font';
+
+import RegistrationScreen from "./Screen/RegistrationScreen";
+import LoginScreen from "./Screen/LoginScreen";
+
+import Home from "./Screen/Home";
+import PostsScreen from "./Screen/PostsScreen";
+import ProfileScreen from "./Screen/ProfileScreen";
+import CreatePostsScreen from "./Screen/CreatePostsScreen";
+
 
 const MainStack = createStackNavigator(); // вказує на групу навігаторів
 
@@ -20,13 +28,16 @@ export default function App() {
   }
 
   return (
+    <>
     <NavigationContainer>
-     <MainStack.Navigator initialRouteName="RegistrationScreen" >    
-       <MainStack.Screen name="Registration" component={{Registration}} options={{ headerShown: false}} /> {/* Аналог Route */}
-       <MainStack.Screen name="Login" component={Login} options={{ headerShown: false}}/>
-       <MainStack.Screen name="Home" component={Home} options={{ headerShown: false }} />  
-  </MainStack.Navigator>
+   <MainStack.Navigator initialRouteName="RegistrationScreen" >    
+    <MainStack.Screen name="Registration" component={RegistrationScreen} options={{ headerShown: false}} /> {/* Аналог Route */}
+    <MainStack.Screen name="Login" component={LoginScreen} options={{ headerShown: false}}/>
+    <MainStack.Screen name="Home" component={Home} options={{ headerShown: false }} />  
+</MainStack.Navigator>
   </NavigationContainer>
+   <StatusBar style="auto" />
+   </>
 );
 };
 
