@@ -13,31 +13,24 @@ import {
   ImageBackground,
   Alert,
 } from "react-native";
-
 import { AntDesign } from '@expo/vector-icons'; 
 import Photo from '../assets/images/photo.png';
 
 export  const RegistrationScreen = () => {
-
   const navigation = useNavigation();
-
   const [login, onChangeLogin] = useState(""); // Стан для збереження значення поля "Логін"
   const [email, onChangeEmail] = useState("");  // Стан для збереження значення поля "Адреса електронної пошти"
   const [password, onChangePassword] = useState(""); // Стан для збереження значення поля "Пароль"
   const [showPassword, setShowPassword] = useState(true); // Стан для визначення видимості пароля
-
   const [isFocusedEmail, setIsFocusedEmail] = useState(false); // Стан для визначення активності поля "Адреса електронної пошти"
   const [isFocusedPassword, setIsFocusedPassword] = useState(false); // Стан для визначення активності поля "Пароль"
   const [isFocusedLogin, setIsFocusedLogin] = useState(false);  // Стан для визначення активності поля "Логін"
 
-
   const behavior = Platform.OS === "ios" ? "padding" : "height";
   const keyboardVerticalOffset = Platform.OS === "ios" ? -120 : -160;
-
   const togleShowPassword = () => {
     setShowPassword((prev) => !prev);
   };
-
   const onLogin = () => {
     if (!login.trim() || !email.trim() || !password.trim()) {
       Alert.alert(`Усі поля мають бути заповнені!`); // Попередження, якщо не всі поля заповнені
@@ -49,9 +42,8 @@ export  const RegistrationScreen = () => {
     onChangeEmail(''); 
     onChangePassword(''); 
     Keyboard.dismiss(); // Закриття клавіатури
-    navigation.navigate("Home");
+     navigation.navigate('Home', { screen: 'PostsScreen' });
   };
-
   return (
     <View style={styles.container}>
     <ImageBackground style={styles.imageBg} source={Photo}>
@@ -59,13 +51,11 @@ export  const RegistrationScreen = () => {
         <View style={{ flex: 1, justifyContent: "flex-end" }}>
         <KeyboardAvoidingView
           behavior={behavior}
-          keyboardVerticalOffset={keyboardVerticalOffset}
-        >
+          keyboardVerticalOffset={keyboardVerticalOffset}>
           <View style={styles.form}>
             <View style={styles.photoWrap}>
               <TouchableOpacity
-                style={{ position: "absolute", bottom: 14, right: -14 }}
-              >
+                style={{ position: "absolute", bottom: 14, right: -14 }}>
                 <View>
                 <AntDesign name="pluscircleo" size={25} color="#FF6C00"/>
                 </View>
@@ -86,10 +76,8 @@ export  const RegistrationScreen = () => {
                 onFocus={() => setIsFocusedLogin(true)}
                 onBlur={() => setIsFocusedLogin(false)}
                 placeholder="Логін"
-                type= {"login"}
-              />
+                type= {"login"}/>
             </View>
-
             <View>
               <TextInput
                 value={email}
@@ -104,8 +92,7 @@ export  const RegistrationScreen = () => {
                 onFocus={() => setIsFocusedEmail(true)}
                 onBlur={() => setIsFocusedEmail(false)}
                 placeholder="Адреса електронної пошти"
-                type={"email"}
-              />
+                type={"email"}/>
             </View>
             <View style={{ position: "relative" }}>
               <TextInput
@@ -122,13 +109,11 @@ export  const RegistrationScreen = () => {
                 onFocus={() => setIsFocusedPassword(true)}
                 onBlur={() => setIsFocusedPassword(false)}
                 placeholder="Пароль"
-                type={"password"}
-              />
+                type={"password"}/>
               <TouchableOpacity
                 onPress={togleShowPassword}
                 activeOpacity={0.8}
-                style={styles.showPasswordWrap}
-              >
+                style={styles.showPasswordWrap}>
                 <Text style={styles.showPasswordTitle}>
                   {showPassword ? "Показати" : "Приховати"}
                 </Text>
@@ -137,14 +122,12 @@ export  const RegistrationScreen = () => {
             <TouchableOpacity
               onPress={onLogin}
               activeOpacity={0.8}
-              style={styles.btn}
-            >
+              style={styles.btn}>
               <Text style={styles.btnTitle}>Зареєструватися</Text>
             </TouchableOpacity>
             <TouchableOpacity
               activeOpacity={0.8}
-              onPress={() => navigation.navigate("Login")}
-            >
+              onPress={() => navigation.navigate("LoginScreen")}>
               <Text style={styles.linkTitle}
               >Вже є аккаунт? Увійти</Text>
             </TouchableOpacity>
@@ -156,7 +139,6 @@ export  const RegistrationScreen = () => {
   </View>
 );
  }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -168,7 +150,6 @@ imageBg: {
    flex: 1,
     width: "100%" 
   },
-
 form: {
   backgroundColor: "#fff",
   borderTopLeftRadius: 25,
@@ -178,7 +159,6 @@ form: {
   paddingBottom: 60,
   position: "relative",
 },
-
 formTitle: {
   fontSize: 30,
   fontWeight: 500,
@@ -187,7 +167,6 @@ formTitle: {
   color: "#212121",
   marginBottom: 20,
 },
-
 input: {
   height: 50,
   marginTop: 12,
@@ -197,7 +176,6 @@ input: {
   padding: 10,
   backgroundColor: "#F6F6F6",
 },
-
 btn: {
   backgroundColor: "#FF6C00",
   borderRadius: 100,
@@ -206,7 +184,6 @@ btn: {
   justifyContent: "center",
   marginTop: 50,
 },
-
 btnTitle: {
   fontSize: 16,
   lineHeight: 19,
@@ -224,7 +201,6 @@ showPasswordWrap: {
   top: 28,
   right: 16,
 },
-
 showPasswordTitle: {
   fontSize: 16,
   lineHeight: 19,

@@ -1,6 +1,5 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-
 const CreatePostsScreen =( )=>{
     return(
         <View style={styles.container}>
@@ -8,7 +7,6 @@ const CreatePostsScreen =( )=>{
         </View>
     )
 };
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -16,5 +14,4 @@ const styles = StyleSheet.create({
         alignContent: 'center',
     }
 });
-
 export default CreatePostsScreen;

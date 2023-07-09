@@ -13,29 +13,21 @@ import {
   ImageBackground,
   Alert,
 } from "react-native";
-
 import Photo from '../assets/images/photo.png';
-
 export  const LoginScreen = ()=> {
-
   const navigation = useNavigation();
+
   const { params: { userId } } = useRoute();
-
-
   const [email, onChangeEmail] = useState("");
   const [password, onChangePassword] = useState("");
   const [showPassword, setShowPassword] = useState(true);
   const [isFocusedEmail, setIsFocusedEmail] = useState(false);
   const [isFocusedPassword, setIsFocusedPassword] = useState(false);
-
-
   const behavior = Platform.OS === "ios" ? "padding" : "height";
   const keyboardVerticalOffset = Platform.OS === "ios" ? -140 : -70;
-
   const togleShowPassword = () => {
     setShowPassword((prev) => !prev);
   };
-
   const onLogin = () => {
     if (!email.trim() || !password.trim()) {
       Alert.alert(`Усі поля мають бути заповнені!`); // Перевірка на заповненість полів електронної пошти та пароля
@@ -43,13 +35,11 @@ export  const LoginScreen = ()=> {
     }
     Alert.alert(`${email}, успішно увійшли!`); // Виведення повідомлення про успішний вхід
     console.log('email' - email, 'password' - password); 
-
     onChangeEmail(''); // Очищення поля з електронною поштою
     onChangePassword(''); // Очищення поля з паролем
     Keyboard.dismiss();
-    navigation.navigate("Home");
+     navigation.navigate('Home', { screen: 'PostsScreen' });
   };
-
   return (
     <View style={styles.container}>
     <ImageBackground style={styles.imageBg} source={Photo}>
@@ -57,11 +47,9 @@ export  const LoginScreen = ()=> {
         <View style={{ flex: 1, justifyContent: "flex-end" }}>
           <KeyboardAvoidingView
             behavior={behavior}
-            keyboardVerticalOffset={keyboardVerticalOffset}
-          >
+            keyboardVerticalOffset={keyboardVerticalOffset}>
             <View style={styles.form}>
               <Text style={styles.formTitle}>Увійти</Text>
-
               <View>
                 <TextInput
                   value={email}
@@ -76,8 +64,7 @@ export  const LoginScreen = ()=> {
                   onFocus={() => setIsFocusedEmail(true)}
                   onBlur={() => setIsFocusedEmail(false)}
                   placeholder="Адреса електронної пошти"
-                  type={"email"}
-                />
+                  type={"email"}/>
               </View>
               <View style={{ position: "relative" }}>
                 <TextInput
@@ -94,13 +81,11 @@ export  const LoginScreen = ()=> {
                   onFocus={() => setIsFocusedPassword(true)}
                   onBlur={() => setIsFocusedPassword(false)}
                   placeholder="Пароль"
-                  type={"password"}
-                />
+                  type={"password"}/>
                 <TouchableOpacity
                   onPress={togleShowPassword}
                   activeOpacity={0.7}
-                  style={styles.showPasswordWrap}
-                >
+                  style={styles.showPasswordWrap}>
                   <Text style={styles.showPasswordTitle}>
                     {showPassword ? "Показати" : "Приховати"}
                   </Text>
@@ -109,16 +94,14 @@ export  const LoginScreen = ()=> {
               <TouchableOpacity
                 onPress={onLogin}
                 activeOpacity={0.7}
-                style={styles.btn}
-              >
+                style={styles.btn}>
                 <Text style={styles.btnTitle} 
                 >Зареєструватися</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 activeOpacity={0.7}
-                onPress={() => navigation.navigate("Registration")}
-              >
-                <Text style={styles.linkTitle} >
+                onPress={() => navigation.navigate("RegistrationScreen")}>
+                <Text style={styles.linkTitle}>
                   Не має акаунта? Зареєструватися
                 </Text>
               </TouchableOpacity>
@@ -130,7 +113,6 @@ export  const LoginScreen = ()=> {
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -148,7 +130,6 @@ const styles = StyleSheet.create({
     paddingBottom: 160,
     position: "relative",
   },
-
   formTitle: {
     fontSize: 30,
     fontWeight: 500,
@@ -157,7 +138,6 @@ const styles = StyleSheet.create({
     color: "#212121",
     marginBottom: 20,
   },
-
   input: {
     height: 50,
     marginTop: 12,
@@ -167,7 +147,6 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: "#F6F6F6",
   },
-
   btn: {
     backgroundColor: "#FF6C00",
     borderRadius: 100,
@@ -176,7 +155,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 50,
   },
-
   btnTitle: {
     fontSize: 16,
     lineHeight: 19,
@@ -194,7 +172,6 @@ const styles = StyleSheet.create({
     top: 28,
     right: 16,
   },
-
   showPasswordTitle: {
     fontSize: 16,
     lineHeight: 19,
