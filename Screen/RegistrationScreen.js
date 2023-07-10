@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigation } from '@react-navigation/native';
+// import { useNavigation } from '@react-navigation/native';
 import {
   View,
   StyleSheet,
@@ -11,13 +11,16 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   ImageBackground,
+  Image,
   Alert,
 } from "react-native";
-import { AntDesign } from '@expo/vector-icons'; 
+
+import { AntDesign } from '@expo/vector-icons';
+import { Ionicons } from "@expo/vector-icons";
 import Photo from '../assets/images/photo.png';
 
-export  const RegistrationScreen = () => {
-  const navigation = useNavigation();
+export  const RegistrationScreen = ({navigation}) => {
+  // const navigation = useNavigation();
   const [login, onChangeLogin] = useState(""); // Стан для збереження значення поля "Логін"
   const [email, onChangeEmail] = useState("");  // Стан для збереження значення поля "Адреса електронної пошти"
   const [password, onChangePassword] = useState(""); // Стан для збереження значення поля "Пароль"
@@ -28,24 +31,37 @@ export  const RegistrationScreen = () => {
 
   const behavior = Platform.OS === "ios" ? "padding" : "height";
   const keyboardVerticalOffset = Platform.OS === "ios" ? -120 : -160;
+
   const togleShowPassword = () => {
     setShowPassword((prev) => !prev);
   };
-  const onLogin = () => {
-    if (!login.trim() || !email.trim() || !password.trim()) {
-      Alert.alert(`Усі поля мають бути заповнені!`); // Попередження, якщо не всі поля заповнені
+
+   const onLogin = () => {
+    if (!login || !email || !password) {
+      Alert.alert("Поле не може бути пустим!");
       return;
     }
-    Alert.alert(`${login}, успішно зареєстровані!`); // Повідомлення про успішну реєстрацію
-    console.log('login: ' + login, 'email: ' + email, 'password: ' + password); // Виведення значень полів "Логін", "Адреса електронної пошти" та "Пароль" у консоль
-    onChangeLogin(''); // Скидання значення поля "Логін"
-    onChangeEmail(''); 
-    onChangePassword(''); 
-    Keyboard.dismiss(); // Закриття клавіатури
-     navigation.navigate('Home', { screen: 'PostsScreen' });
+
+    if (!validEmail(email)) {
+      Alert.alert("Невірний формат електронної пошти!");
+      return;
+    }
+    navigation.navigate("Home", { screen: "PostsScreen" });
+    clearForm();
   };
+
+  const validEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
+  const clearForm = () => {
+    onChangeLogin("");
+    onChangeEmail("");
+    onChangePassword("");
+  };
+
   return (
-    <View style={styles.container}>
     <ImageBackground style={styles.imageBg} source={Photo}>
        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={{ flex: 1, justifyContent: "flex-end" }}>
@@ -54,8 +70,14 @@ export  const RegistrationScreen = () => {
           keyboardVerticalOffset={keyboardVerticalOffset}>
           <View style={styles.form}>
             <View style={styles.photoWrap}>
+            <Image
+                  style={{ width: 120, height: 120, borderRadius: 16 }}
+                  source={avatar}
+                />
               <TouchableOpacity
-                style={{ position: "absolute", bottom: 14, right: -14 }}>
+                style={{ position: "absolute", bottom: 14, right: -14 }}
+                onPress={() => Alert.alert("Працює")}
+                >
                 <View>
                 <AntDesign name="pluscircleo" size={25} color="#FF6C00"/>
                 </View>
@@ -76,7 +98,7 @@ export  const RegistrationScreen = () => {
                 onFocus={() => setIsFocusedLogin(true)}
                 onBlur={() => setIsFocusedLogin(false)}
                 placeholder="Логін"
-                type= {"login"}/>
+             />
             </View>
             <View>
               <TextInput
@@ -92,7 +114,7 @@ export  const RegistrationScreen = () => {
                 onFocus={() => setIsFocusedEmail(true)}
                 onBlur={() => setIsFocusedEmail(false)}
                 placeholder="Адреса електронної пошти"
-                type={"email"}/>
+                keyboardType="email-address"/>
             </View>
             <View style={{ position: "relative" }}>
               <TextInput
@@ -109,14 +131,26 @@ export  const RegistrationScreen = () => {
                 onFocus={() => setIsFocusedPassword(true)}
                 onBlur={() => setIsFocusedPassword(false)}
                 placeholder="Пароль"
-                type={"password"}/>
+              />
               <TouchableOpacity
                 onPress={togleShowPassword}
                 activeOpacity={0.8}
                 style={styles.showPasswordWrap}>
-                <Text style={styles.showPasswordTitle}>
-                  {showPassword ? "Показати" : "Приховати"}
-                </Text>
+                 <Text style={styles.showPasswordTitle}>
+                    {showPassword ? (
+                      <Ionicons
+                        name="ios-eye-outline"
+                        size={22}
+                        color="black"
+                      />
+                    ) : (
+                      <Ionicons
+                        name="ios-eye-off-sharp"
+                        size={22}
+                        color="black"
+                      />
+                    )}
+                  </Text>
               </TouchableOpacity>
             </View>
             <TouchableOpacity
@@ -127,7 +161,7 @@ export  const RegistrationScreen = () => {
             </TouchableOpacity>
             <TouchableOpacity
               activeOpacity={0.8}
-              onPress={() => navigation.navigate("LoginScreen")}>
+              onPress={() => navigation.navigate("Login")}>
               <Text style={styles.linkTitle}
               >Вже є аккаунт? Увійти</Text>
             </TouchableOpacity>
@@ -136,16 +170,9 @@ export  const RegistrationScreen = () => {
       </View>
       </TouchableWithoutFeedback>
   </ImageBackground>
-  </View>
 );
  }
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
 imageBg: {
    flex: 1,
     width: "100%" 

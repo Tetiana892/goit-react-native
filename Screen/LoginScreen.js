@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigation , useRoute} from '@react-navigation/native';
+// import { useNavigation , useRoute} from '@react-navigation/native';
 import {
   View,
   StyleSheet,
@@ -13,18 +13,22 @@ import {
   ImageBackground,
   Alert,
 } from "react-native";
-import Photo from '../assets/images/photo.png';
-export  const LoginScreen = ()=> {
-  const navigation = useNavigation();
 
-  const { params: { userId } } = useRoute();
+import Photo from '../assets/images/photo.png';
+import { Ionicons } from "@expo/vector-icons";
+
+export  const LoginScreen = ({navigation})=> {
+  // const navigation = useNavigation();
+
   const [email, onChangeEmail] = useState("");
   const [password, onChangePassword] = useState("");
   const [showPassword, setShowPassword] = useState(true);
   const [isFocusedEmail, setIsFocusedEmail] = useState(false);
   const [isFocusedPassword, setIsFocusedPassword] = useState(false);
+
   const behavior = Platform.OS === "ios" ? "padding" : "height";
   const keyboardVerticalOffset = Platform.OS === "ios" ? -140 : -70;
+
   const togleShowPassword = () => {
     setShowPassword((prev) => !prev);
   };
@@ -33,15 +37,25 @@ export  const LoginScreen = ()=> {
       Alert.alert(`Усі поля мають бути заповнені!`); // Перевірка на заповненість полів електронної пошти та пароля
       return;
     }
-    Alert.alert(`${email}, успішно увійшли!`); // Виведення повідомлення про успішний вхід
-    console.log('email' - email, 'password' - password); 
-    onChangeEmail(''); // Очищення поля з електронною поштою
-    onChangePassword(''); // Очищення поля з паролем
-    Keyboard.dismiss();
-     navigation.navigate('Home', { screen: 'PostsScreen' });
+    if (!validEmail(email)) {
+      Alert.alert("Невірний формат електронної пошти!");
+      return;
+    }
+    navigation.navigate("Home", { screen: "PostsScreen" });
+    clearForm();
   };
+
+  const validEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
+  const clearForm = () => {
+    onChangeEmail("");
+    onChangePassword("");
+  };
+
   return (
-    <View style={styles.container}>
     <ImageBackground style={styles.imageBg} source={Photo}>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={{ flex: 1, justifyContent: "flex-end" }}>
@@ -64,7 +78,7 @@ export  const LoginScreen = ()=> {
                   onFocus={() => setIsFocusedEmail(true)}
                   onBlur={() => setIsFocusedEmail(false)}
                   placeholder="Адреса електронної пошти"
-                  type={"email"}/>
+                  keyboardType="email-address"/>
               </View>
               <View style={{ position: "relative" }}>
                 <TextInput
@@ -87,7 +101,19 @@ export  const LoginScreen = ()=> {
                   activeOpacity={0.7}
                   style={styles.showPasswordWrap}>
                   <Text style={styles.showPasswordTitle}>
-                    {showPassword ? "Показати" : "Приховати"}
+                    {showPassword ? (
+                      <Ionicons
+                        name="ios-eye-outline"
+                        size={22}
+                        color="black"
+                      />
+                    ) : (
+                      <Ionicons
+                        name="ios-eye-off-sharp"
+                        size={22}
+                        color="black"
+                      />
+                    )}
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -95,12 +121,11 @@ export  const LoginScreen = ()=> {
                 onPress={onLogin}
                 activeOpacity={0.7}
                 style={styles.btn}>
-                <Text style={styles.btnTitle} 
-                >Зареєструватися</Text>
+                <Text style={styles.btnTitle} >Зареєструватися</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 activeOpacity={0.7}
-                onPress={() => navigation.navigate("RegistrationScreen")}>
+                onPress={() => navigation.navigate("Register")}>
                 <Text style={styles.linkTitle}>
                   Не має акаунта? Зареєструватися
                 </Text>
@@ -110,16 +135,10 @@ export  const LoginScreen = ()=> {
         </View>
       </TouchableWithoutFeedback>
     </ImageBackground>
-    </View>
+   
   );
 };
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
   imageBg: { flex: 1, width: "100%" },
   form: {
     backgroundColor: "#fff",
