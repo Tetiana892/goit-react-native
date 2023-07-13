@@ -17,7 +17,7 @@ import {
 import Photo from '../assets/images/photo.png';
 import { Ionicons } from "@expo/vector-icons";
 
-export  const LoginScreen = ({navigation})=> {
+export  default function LoginScreen ({ navigation }) {
   // const navigation = useNavigation();
 
   const [email, onChangeEmail] = useState("");
@@ -32,11 +32,13 @@ export  const LoginScreen = ({navigation})=> {
   const togleShowPassword = () => {
     setShowPassword((prev) => !prev);
   };
+
   const onLogin = () => {
-    if (!email.trim() || !password.trim()) {
-      Alert.alert(`Усі поля мають бути заповнені!`); // Перевірка на заповненість полів електронної пошти та пароля
+    if (!email || !password) {
+      Alert.alert("Поле не може бути пустим!");
       return;
     }
+
     if (!validEmail(email)) {
       Alert.alert("Невірний формат електронної пошти!");
       return;
@@ -125,7 +127,8 @@ export  const LoginScreen = ({navigation})=> {
               </TouchableOpacity>
               <TouchableOpacity
                 activeOpacity={0.7}
-                onPress={() => navigation.navigate("Register")}>
+                onPress={() => navigation.navigate("Registration")}
+                >
                 <Text style={styles.linkTitle}>
                   Не має акаунта? Зареєструватися
                 </Text>

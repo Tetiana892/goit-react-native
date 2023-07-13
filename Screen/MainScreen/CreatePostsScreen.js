@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-const CreatePostsScreen =( )=>{
+export default function CreatePostsScreen ( ){
     return(
         <View style={styles.container}>
             <Text>Створити публікацію</Text>
@@ -14,4 +14,3 @@ const styles = StyleSheet.create({
         alignContent: 'center',
     }
 });
-export default CreatePostsScreen;

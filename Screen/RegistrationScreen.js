@@ -19,7 +19,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from "@expo/vector-icons";
 import Photo from '../assets/images/photo.png';
 
-export  const RegistrationScreen = ({navigation}) => {
+export  default function RegistrationScreen  ({ navigation })  {
   // const navigation = useNavigation();
   const [login, onChangeLogin] = useState(""); // Стан для збереження значення поля "Логін"
   const [email, onChangeEmail] = useState("");  // Стан для збереження значення поля "Адреса електронної пошти"
@@ -36,7 +36,7 @@ export  const RegistrationScreen = ({navigation}) => {
     setShowPassword((prev) => !prev);
   };
 
-   const onLogin = () => {
+  const onLogin = () => {
     if (!login || !email || !password) {
       Alert.alert("Поле не може бути пустим!");
       return;

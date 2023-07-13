@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-const ProfileScreen =( )=>{
+export default function ProfileScreen ( ){
     return(
         <View style={styles.container}>
             <Text>Коментарі</Text>
@@ -14,4 +14,3 @@ const styles = StyleSheet.create({
         alignContent: 'center',
     }
 });
-export default ProfileScreen;

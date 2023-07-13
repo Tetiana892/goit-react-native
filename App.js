@@ -1,17 +1,17 @@
-import 'react-native-gesture-handler';
-import { StatusBar } from "expo-status-bar";
+// import 'react-native-gesture-handler';
+// import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/stack';
 import { useFonts } from 'expo-font';
-import  RegistrationScreen from './Screen/RegistrationScreen.js';
-import LoginScreen from './Screen/LoginScreen.js';
-import {onLogin} from './Screen/RegistrationScreen.js';
+
+import  RegistrationScreen from './Screen/RegistrationScreen';
+import LoginScreen from './Screen/LoginScreen';
 import Home from './Screen/Home';
 // import PostsScreen from './Screen/MainScreen/PostsScreen.js';
 // import CreatePostsScreen from './Screen/MainScreen/CreatePostsScreen.js';
 // import ProfileScreen from './Screen/MainScreen/ProfileScreen.js';
 
-const MainStack = createStackNavigator(); // вказує на групу навігаторів
+const AuthStack = createNativeStackNavigator(); // вказує на групу навігаторів
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -23,26 +23,41 @@ export default function App() {
     return null;
   }
   return (
-    <>
-  <NavigationContainer>
-  {!onLogin ? (
-  <>
-   <MainStack.Screen name="Login" component={LoginScreen} options={{ headerShown: false}}/>
-  <MainStack.Screen name="Register" component={RegistrationScreen} options={{ headerShown: false}} /> {/* Аналог Route */} 
-  </>
- ): (
-  <>
-   <MainStack.Screen name="Home" component={Home} options={{ headerShown: false}}/>
-   {/* <MainStack.Screen name = "PostsScreen" component={PostsScreen}/>
-   <MainStack.Screen name = "CreatePostsScreen" component={CreatePostsScreen}/>
-   <MainStack.Screen name = "ProfileScreen" component={ProfileScreen}/> */}
-  </> )
- }  
+  
+    <NavigationContainer>
+    <AuthStack.Navigator >
+      <AuthStack.Screen
+        options={{ headerShown: false }}
+        name="Login"
+        component={LoginScreen}
+      />
+      <AuthStack.Screen
+        options={{ headerShown: false }}
+        name="Registration"
+        component={RegistrationScreen}
+      />
+      <AuthStack.Screen
+        options={{ headerShown: false }}
+        name="Home"
+        component={Home}
+      />
+    </AuthStack.Navigator>
   </NavigationContainer>
-     <StatusBar style="auto" />
-     </>
   );
 };
 
  
 
+// {!onLogin ? (
+//   <>
+//    <MainStack.Screen name="Login" component={LoginScreen} options={{ headerShown: false}}/>
+//   <MainStack.Screen name="Register" component={RegistrationScreen} options={{ headerShown: false}} /> {/* Аналог Route */} 
+//   </>
+//  ): (
+//   <>
+//    <MainStack.Screen name="Home" component={Home} options={{ headerShown: false}}/>
+   {/* <MainStack.Screen name = "PostsScreen" component={PostsScreen}/>
+   <MainStack.Screen name = "CreatePostsScreen" component={CreatePostsScreen}/>
+   <MainStack.Screen name = "ProfileScreen" component={ProfileScreen}/> */}
+//   </> )
+//  }  
