@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { StyleSheet, TouchableOpacity } from "react-native";
 // import { useNavigation } from '@react-navigation/native';
+
 import PostsScreen  from './MainScreen/PostsScreen';
 import CreatePostsScreen from './MainScreen/CreatePostsScreen';
 import ProfileScreen from './MainScreen/ProfileScreen';
@@ -93,9 +94,6 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
 });
-
-   
-
 
 {/* <Tabs.Navigator
       screenOptions={({ route }) => ({

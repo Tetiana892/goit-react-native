@@ -1,15 +1,12 @@
-// import 'react-native-gesture-handler';
-// import { StatusBar } from "expo-status-bar";
+import "react-native-gesture-handler";
+import { StyleSheet } from "react-native";
+import { useFonts } from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from '@react-navigation/stack';
-import { useFonts } from 'expo-font';
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import  RegistrationScreen from './Screen/RegistrationScreen';
 import LoginScreen from './Screen/LoginScreen';
 import Home from './Screen/Home';
-// import PostsScreen from './Screen/MainScreen/PostsScreen.js';
-// import CreatePostsScreen from './Screen/MainScreen/CreatePostsScreen.js';
-// import ProfileScreen from './Screen/MainScreen/ProfileScreen.js';
 
 const AuthStack = createNativeStackNavigator(); // вказує на групу навігаторів
 
@@ -25,28 +22,38 @@ export default function App() {
   return (
   
     <NavigationContainer>
-    <AuthStack.Navigator >
-      <AuthStack.Screen
-        options={{ headerShown: false }}
-        name="Login"
-        component={LoginScreen}
-      />
-      <AuthStack.Screen
-        options={{ headerShown: false }}
-        name="Registration"
-        component={RegistrationScreen}
-      />
-      <AuthStack.Screen
-        options={{ headerShown: false }}
-        name="Home"
-        component={Home}
-      />
-    </AuthStack.Navigator>
-  </NavigationContainer>
+      <AuthStack.Navigator style={styles.container}>
+        <AuthStack.Screen
+          options={{ headerShown: false }}
+          name="Login"
+          component={LoginScreen}
+        />
+        <AuthStack.Screen
+          options={{ headerShown: false }}
+          name="Registration"
+          component={RegistrationScreen}
+        />
+        <AuthStack.Screen
+          options={{ headerShown: false }}
+          name="Home"
+          component={Home}
+        />
+      </AuthStack.Navigator>
+    </NavigationContainer>
   );
 };
 
- 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "flex-end",
+  },
+  logoutBtn: {
+    marginRight: 16,
+  },
+});
 
 // {!onLogin ? (
 //   <>
